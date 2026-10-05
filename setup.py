@@ -46,7 +46,7 @@ if __name__ == '__main__':
     version = long_descriptions[-1].strip().split(' ', 1)[0].replace('~', '')
 
     setup(
-        name='asterisklint',
+        name='asterisklint-jjs',
         version=version,
         scripts=['scripts/asterisklint'],
         packages=get_packages(),
@@ -57,7 +57,7 @@ if __name__ == '__main__':
         long_description_content_type='text/x-rst',  # twine check complains..
         author='Walter Doekes, OSSO B.V.',
         author_email='wjdoekes+asterisklint@osso.nl',
-        url='https://github.com/ossobv/asterisklint',
+        url='https://github.com/jjsearle/asterisklint',
         license='GPLv3+',
         classifiers=[
             'Development Status :: 4 - Beta',
