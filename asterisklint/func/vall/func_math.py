@@ -43,7 +43,24 @@ class DEC(FuncBase):
         return ret
 
 
+class ABS(FuncBase):
+    added_in = 20
+
+
+class DIGIT_SUM(FuncBase):
+    added_in = 20
+
+
+class MAX(FuncBase):
+    added_in = 20
+
+
+class MIN(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
-            MATH, INC, DEC):
+            MATH, INC, DEC,
+            ABS, DIGIT_SUM, MAX, MIN):
         func_loader.register(func())

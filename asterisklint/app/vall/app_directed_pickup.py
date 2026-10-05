@@ -31,7 +31,7 @@ class PickupOld1v4(AppBase):
 
     NOTE: https://issues.asterisk.org/jira/browse/ASTERISK-26464
     """
-    pass
+    removed_in = 20
 
 
 def register(app_loader):

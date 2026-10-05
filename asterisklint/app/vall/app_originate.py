@@ -13,7 +13,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from ..base import E_APP_ARG_BADOPT, App, AppArg
+from ..base import E_APP_ARG_BADOPT, App, AppArg, AppOptions
+from ...version import AsteriskVersion
 
 
 class AppOrExten(AppArg):
@@ -25,11 +26,12 @@ class AppOrExten(AppArg):
 
 class Originate(App):
     def __init__(self):
-        super().__init__(
-            # arg1 means Application-name or Context
-            args=[AppArg('tech_data'), AppOrExten('type'), AppArg('arg1'),
-                  AppArg('arg2'), AppArg('arg3'), AppArg('timeout')],
-            min_args=3)
+        # arg1 means Application-name or Context
+        args = [AppArg('tech_data'), AppOrExten('type'), AppArg('arg1'),
+                AppArg('arg2'), AppArg('arg3'), AppArg('timeout')]
+        if AsteriskVersion().major >= 20:
+            args.append(AppOptions('abBcCnv'))
+        super().__init__(args=args, min_args=3)
 
 
 def register(app_loader):

@@ -28,10 +28,15 @@ class MASTER_CHANNEL(FuncBase):
     pass
 
 
+class CHANNEL_EXISTS(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
             CHANNEL,
             CHANNELS,
             MASTER_CHANNEL,
+            CHANNEL_EXISTS,
             ):
         func_loader.register(func())

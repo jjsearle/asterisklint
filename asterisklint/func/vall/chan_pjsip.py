@@ -40,6 +40,14 @@ class PJSIP_SEND_SESSION_REFRESH(FuncBase):
     pass
 
 
+class PJSIP_PARSE_URI_FROM(FuncBase):
+    added_in = 20
+
+
+class PJSIP_TRANSFER_HANDLING(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
             PJSIP_DIAL_CONTACTS,
@@ -48,5 +56,7 @@ def register(func_loader):
             PJSIP_MOH_PASSTHROUGH,
             PJSIP_PARSE_URI,
             PJSIP_SEND_SESSION_REFRESH,
+            PJSIP_PARSE_URI_FROM,
+            PJSIP_TRANSFER_HANDLING,
             ):
         func_loader.register(func())

@@ -21,7 +21,8 @@ class CALLERID(FuncBase):
 
 
 class CALLERPRES(FuncBase):
-    pass
+    # Not in the Asterisk 20 documentation, so gone by then.
+    removed_in = 20
 
 
 class CONNECTEDLINE(FuncBase):

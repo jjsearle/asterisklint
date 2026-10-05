@@ -21,11 +21,13 @@ class MusicOnHold(AppBase):
 
 
 class WaitMusicOnHold(AppBase):
-    pass
+    # Not in the Asterisk 20 documentation, so gone by then.
+    removed_in = 20
 
 
 class SetMusicOnHold(AppBase):
-    pass
+    # Not in the Asterisk 20 documentation, so gone by then.
+    removed_in = 20
 
 
 class StartMusicOnHold(AppBase):

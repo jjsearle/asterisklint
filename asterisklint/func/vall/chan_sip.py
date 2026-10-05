@@ -25,15 +25,21 @@ class SIP_HEADER(FuncBase):
 
 
 class SIPCHANINFO(FuncBase):
-    pass
+    # Not in the Asterisk 20 documentation, so gone by then.
+    removed_in = 20
 
 
 class SIPPEER(FuncBase):
     pass
 
 
+class SIP_HEADERS(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
             CHECKSIPDOMAIN, SIP_HEADER,
-            SIPCHANINFO, SIPPEER):
+            SIPCHANINFO, SIPPEER,
+            SIP_HEADERS):
         func_loader.register(func())

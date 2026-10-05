@@ -13,11 +13,29 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from ..base import AppBase
+from ..base import App, AppArg, AppBase, AppOptions
+from ...version import AsteriskVersion
 
 
 class Dial(AppBase):
-    pass
+    # Arguments are only checked for versions we have documentation
+    # for. See CheckedDial.
+    removed_in = 20
+
+
+class CheckedDial(App):
+    name = 'Dial'
+    added_in = 20
+
+    def __init__(self):
+        options = 'aAbBcCdDeEfFgGhHiIjkKLmMnNoOpPQrRsStTuUwWxXz'
+        if AsteriskVersion().major >= 21:
+            # M(macro^arg) was removed together with app_macro.
+            options = options.replace('M', '')
+        super().__init__(
+            args=[AppArg('devices'), AppArg('timeout'), AppOptions(options),
+                  AppArg('url')],
+            min_args=1)
 
 
 class RetryDial(AppBase):
@@ -26,4 +44,5 @@ class RetryDial(AppBase):
 
 def register(app_loader):
     app_loader.register(Dial())
+    app_loader.register(CheckedDial())
     app_loader.register(RetryDial())

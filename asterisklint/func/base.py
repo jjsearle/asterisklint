@@ -18,6 +18,11 @@ from ..variable import variable_check_balance
 
 
 class FuncBase(object):
+    # Asterisk major version where this function appeared or
+    # disappeared. See AppBase.added_in.
+    added_in = None
+    removed_in = None
+
     @property
     def name(self):
         return self.__class__.__name__

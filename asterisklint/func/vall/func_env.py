@@ -36,6 +36,14 @@ class STAT(FuncBase):
     pass
 
 
+class BASENAME(FuncBase):
+    added_in = 20
+
+
+class DIRNAME(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
             ENV,
@@ -43,5 +51,7 @@ def register(func_loader):
             FILE_COUNT_LINE,
             FILE_FORMAT,
             STAT,
+            BASENAME,
+            DIRNAME,
             ):
         func_loader.register(func())

@@ -44,6 +44,14 @@ class SET(FuncBase):
         super().__call__(data, where)
 
 
+class DELETE(FuncBase):
+    added_in = 20
+
+
+class VARIABLE_EXISTS(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
             EXISTS,
@@ -52,5 +60,7 @@ def register(func_loader):
             IMPORT,
             ISNULL,
             SET,
+            DELETE,
+            VARIABLE_EXISTS,
             ):
         func_loader.register(func())

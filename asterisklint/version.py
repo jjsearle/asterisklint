@@ -30,15 +30,43 @@ class AsteriskVersion(metaclass=Singleton):
         AsteriskVersion('v13')  # set version 13 throughout the run
     """
     DEFAULT = 'v13'
+    SUPPORTED = ('v11', 'v13', 'v20', 'v22')
 
     def __init__(self, version=None):
-        self.version = version or self.DEFAULT
+        self.version = self.normalize(version or self.DEFAULT)
 
     def reinit(self, version=None):
-        if version and self.version != version:
+        if version and self.version != self.normalize(version):
             raise RuntimeError(
                 'Attempt to re-set Asterisk version from {} to {}'.format(
                     self.version, version))
+
+    @classmethod
+    def normalize(cls, version):
+        """
+        Turn '20', 'v20' or '20.5.1' into 'v20'. Raises ValueError for
+        versions we have no app/func definitions for.
+        """
+        normalized = 'v{}'.format(str(version).lstrip('v').split('.', 1)[0])
+        if normalized not in cls.SUPPORTED:
+            raise ValueError(
+                'Unsupported Asterisk version {!r}, choose from: {}'.format(
+                    version, ', '.join(i[1:] for i in cls.SUPPORTED)))
+        return normalized
+
+    @property
+    def major(self):
+        return int(self.version[1:])
+
+    def provides(self, app_or_func):
+        """
+        Return whether the app/func exists in this version, judging by
+        its optional added_in/removed_in major version attributes.
+        """
+        added_in = getattr(app_or_func, 'added_in', None)
+        removed_in = getattr(app_or_func, 'removed_in', None)
+        return ((added_in is None or self.major >= added_in) and
+                (removed_in is None or self.major < removed_in))
 
     def list_app_mods(self):
         """

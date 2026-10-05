@@ -17,6 +17,14 @@ import argparse
 import os
 
 from . import FileFuncOdbcParser
+from .version import AsteriskVersion
+
+
+def asterisk_version(value):
+    try:
+        return AsteriskVersion.normalize(value)
+    except ValueError as e:
+        raise argparse.ArgumentTypeError(str(e))
 
 
 class MainBase(object):
@@ -26,12 +34,22 @@ class MainBase(object):
     def handle_args(self, args):
         raise NotImplementedError()
 
-    def parse_args(self, args):
+    def parse_args(self, args, envs=None):
         parser = self.create_argparser(argparse.ArgumentParser)
+        default_version = (envs or {}).get('ALINT_ASTERISK_VERSION') or None
+        parser.add_argument(
+            '--asterisk-version', metavar='VERSION', type=asterisk_version,
+            default=default_version,
+            help="Asterisk major version to check against, one of: {} "
+                 "(default: ALINT_ASTERISK_VERSION env, or {})".format(
+                     ', '.join(i[1:] for i in AsteriskVersion.SUPPORTED),
+                     AsteriskVersion.DEFAULT[1:]))
         return parser.parse_args(args)
 
     def __call__(self, args, envs):
-        args = self.parse_args(args)
+        args = self.parse_args(args, envs)
+        # Must be set before the apps and functions are loaded.
+        AsteriskVersion(args.asterisk_version)
         return self.handle_args(args)
 
 

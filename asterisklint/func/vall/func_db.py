@@ -32,11 +32,16 @@ class DB_KEYS(FuncBase):
     pass
 
 
+class DB_KEYCOUNT(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
             DB,
             DB_EXISTS,
             DB_KEYS,
             DB_DELETE,
+            DB_KEYCOUNT,
             ):
         func_loader.register(func())

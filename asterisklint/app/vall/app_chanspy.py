@@ -24,6 +24,11 @@ class ExtenSpy(AppBase):
     pass
 
 
+class DAHDIScan(AppBase):
+    added_in = 20
+
+
 def register(app_loader):
     app_loader.register(ChanSpy())
     app_loader.register(ExtenSpy())
+    app_loader.register(DAHDIScan())

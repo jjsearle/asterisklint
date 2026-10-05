@@ -13,7 +13,9 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from .. import E_FUNC_BAD_ARGS
 from ..base import FuncBase
+from ...version import AsteriskVersion
 
 
 class _Builtin(object):
@@ -39,7 +41,17 @@ class FEATURE(BuiltinFuncBase):
 
 
 class FEATUREMAP(BuiltinFuncBase):
-    pass
+    def __call__(self, data, where):
+        # Only checked for versions we have documentation for.
+        if AsteriskVersion().major >= 20 and isinstance(data, str):
+            features = ['atxfer', 'blindxfer', 'automon', 'disconnect',
+                        'parkcall', 'automixmon']
+            if AsteriskVersion().major >= 21:
+                # automon went together with res_monitor.
+                features.remove('automon')
+            if data not in features:
+                E_FUNC_BAD_ARGS(where, func=self.name, data=data)
+        super().__call__(data, where)
 
 
 class MESSAGE(BuiltinFuncBase):
@@ -54,8 +66,13 @@ class TESTTIME(BuiltinFuncBase):
     pass
 
 
+class LOG_GROUP(BuiltinFuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
             AMI_CLIENT, EXCEPTION, FEATURE, FEATUREMAP,
-            MESSAGE, MESSAGE_DATA, TESTTIME):
+            MESSAGE, MESSAGE_DATA, TESTTIME,
+            LOG_GROUP):
         func_loader.register(func())
