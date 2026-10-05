@@ -112,6 +112,22 @@ class UNSHIFT(FuncBase):
     pass
 
 
+class LTRIM(FuncBase):
+    added_in = 20
+
+
+class RTRIM(FuncBase):
+    added_in = 20
+
+
+class STRBETWEEN(FuncBase):
+    added_in = 20
+
+
+class TRIM(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
             ARRAY,
@@ -138,5 +154,9 @@ def register(func_loader):
             TOLOWER,
             TOUPPER,
             UNSHIFT,
+            LTRIM,
+            RTRIM,
+            STRBETWEEN,
+            TRIM,
             ):
         func_loader.register(func())

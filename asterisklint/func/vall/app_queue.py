@@ -44,9 +44,14 @@ class QUEUE_WAITING_COUNT(FuncBase):
     pass
 
 
+class QUEUE_GET_CHANNEL(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
             QUEUE_EXISTS, QUEUE_MEMBER, QUEUE_MEMBER_COUNT,
             QUEUE_MEMBER_LIST, QUEUE_MEMBER_PENALTY,
-            QUEUE_VARIABLES, QUEUE_WAITING_COUNT):
+            QUEUE_VARIABLES, QUEUE_WAITING_COUNT,
+            QUEUE_GET_CHANNEL):
         func_loader.register(func())

@@ -80,6 +80,8 @@ class AppLoader(metaclass=Singleton):
         return self._lower_apps[lower_app]
 
     def register(self, app):
+        if not AsteriskVersion().provides(app):
+            return
         lower_app = app.name.lower()
         self._lower_apps[lower_app] = app
 

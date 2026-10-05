@@ -93,6 +93,26 @@ All commands show help if asked:
                             empty to disable
 
 
+Asterisk versions
+-----------------
+
+Apps and functions differ between Asterisk versions. Choose the version
+to check against with ``--asterisk-version`` or the
+``ALINT_ASTERISK_VERSION`` environment variable. Supported are 11, 13
+(the default), 20 and 22:
+
+.. code-block:: console
+
+    $ asterisklint dialplan-check --asterisk-version 22 extensions.conf
+    extensions.conf:6 E_APP_MISSING: app 'Macro' does not exist, dialplan will halt here!
+    extensions.conf:7 E_APP_ARG_BADOPT: unrecognised options 'M' in arg 3 for app 'Dial'
+
+The app and function lists for 20 and 22 follow the official
+documentation at `<https://docs.asterisk.org/>`_. For those versions the
+options of Dial, Queue, ResetCDR, Originate and VoiceMail are checked as
+well.
+
+
 Installation
 ------------
 

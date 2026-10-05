@@ -33,11 +33,13 @@ class MeetMeChannelAdmin(AppBase):
 
 
 class SLAStation(AppBase):
-    pass
+    # Moved to app_sla.
+    removed_in = 21
 
 
 class SLATrunk(AppBase):
-    pass
+    # Moved to app_sla.
+    removed_in = 21
 
 
 def register(app_loader):

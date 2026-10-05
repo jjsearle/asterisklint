@@ -20,8 +20,13 @@ class CDR(FuncBase):
     pass
 
 
+class CDR_PROP(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
             CDR,
+            CDR_PROP,
             ):
         func_loader.register(func())

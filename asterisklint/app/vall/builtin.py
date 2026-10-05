@@ -123,7 +123,8 @@ class Progress(BuiltinAppBase):
 
 
 class ResetCDR(BuiltinAppBase):
-    pass
+    # See app_cdr.CheckedResetCDR.
+    removed_in = 20
 
 
 class Ringing(BuiltinAppBase):
@@ -147,11 +148,12 @@ class SayPhonetic(BuiltinAppBase):
 
 
 class SetAMAFlags(BuiltinAppBase):
-    pass
+    removed_in = 21
 
 
 class SetGlobalVar(BuiltinAppBase):
-    pass
+    # Not in the Asterisk 20 documentation, so gone by then.
+    removed_in = 20
 
 
 class Set(BuiltinAppBase):
@@ -162,7 +164,7 @@ class Set(BuiltinAppBase):
 
 
 class ImportVar(BuiltinAppBase):
-    pass
+    removed_in = 21
 
 
 class Wait(BuiltinAppBase):
@@ -171,6 +173,52 @@ class Wait(BuiltinAppBase):
 
 class WaitExten(BuiltinAppBase):
     pass
+
+
+class CallCompletionCancel(BuiltinAppBase):
+    added_in = 20
+
+
+class CallCompletionRequest(BuiltinAppBase):
+    added_in = 20
+
+
+class Incomplete(BuiltinAppBase):
+    added_in = 20
+
+
+class MSet(BuiltinAppBase):
+    added_in = 20
+
+    def __call__(self, data, where, jump_destinations):
+        # SOURCE: main/pbx_variables.c -- pbx_builtin_setvar_multiple
+        for pair in self.separate_args(data):
+            VarLoader().parse_assignment(pair, where)
+        super().__call__(data, where, jump_destinations)
+
+
+class MessageSend(BuiltinAppBase):
+    added_in = 20
+
+
+class RaiseException(BuiltinAppBase):
+    added_in = 20
+
+
+class SayAlphaCase(BuiltinAppBase):
+    added_in = 20
+
+
+class SayMoney(BuiltinAppBase):
+    added_in = 20
+
+
+class SayOrdinal(BuiltinAppBase):
+    added_in = 20
+
+
+class WaitDigit(BuiltinAppBase):
+    added_in = 20
 
 
 def register(app_loader):
@@ -184,5 +232,8 @@ def register(app_loader):
             SayPhonetic, SetAMAFlags,
             SetGlobalVar, Set,
             ImportVar, Wait,
-            WaitExten):
+            WaitExten,
+            CallCompletionCancel, CallCompletionRequest, Incomplete, MSet,
+            MessageSend, RaiseException, SayAlphaCase, SayMoney, SayOrdinal,
+            WaitDigit):
         app_loader.register(app())

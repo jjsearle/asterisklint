@@ -14,13 +14,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from ..base import App, AppArg, AppOptions, AppBase
+from ...version import AsteriskVersion
 
 
 class VoiceMail(App):
     def __init__(self):
+        if AsteriskVersion().major >= 20:
+            options = 'bdegPsStuU'
+        else:
+            options = 'bdgsuUP'
         super().__init__(
-            # BUG: g takes an argument NUM.
-            args=[AppArg('mailboxes'), AppOptions('bdgsuUP')], min_args=1)
+            args=[AppArg('mailboxes'), AppOptions(options)], min_args=1)
 
 
 class VoiceMailMain(AppBase):
@@ -32,7 +36,9 @@ class VoiceMailPlayMsg(AppBase):
 
 
 class MailboxExists(AppBase):
-    pass
+    # Superseded by the VM_INFO() function; absent from the Asterisk 20
+    # documentation.
+    removed_in = 20
 
 
 class VMAuthenticate(AppBase):

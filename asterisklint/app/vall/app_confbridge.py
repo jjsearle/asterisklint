@@ -20,5 +20,10 @@ class ConfBridge(AppBase):
     pass
 
 
+class ConfKick(AppBase):
+    added_in = 20
+
+
 def register(app_loader):
     app_loader.register(ConfBridge())
+    app_loader.register(ConfKick())

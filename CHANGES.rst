@@ -1,3 +1,26 @@
+0.5.0~dev (unreleased)
+~~~~~~~~~~~~~~~~~~~~~~
+
+Improvements:
+
+* Added Asterisk 20 and 22 support, selected with ``--asterisk-version``
+  or ``ALINT_ASTERISK_VERSION``. The default stays at 13. All apps and
+  functions in the Asterisk 20/22 documentation are known; those removed
+  in Asterisk 21 (app_macro, chan_sip, res_monitor, app_osplookup,
+  NoCDR, ImportVar, SetAMAFlags) are reported as missing for 22.
+* Check Dial, Queue, ResetCDR and Originate options for Asterisk 20/22,
+  including options removed in 21 (Dial M, Queue w/W, ResetCDR e).
+* Check FEATUREMAP() feature names for Asterisk 20/22.
+* Added the m option to Milliwatt and the e, S and t options to VoiceMail
+  (20/22).
+* Added MSet, which checks its assignments like Set does.
+
+Bug fixes:
+
+* App options with arguments, like VoiceMail g(5), are no longer
+  reported as unrecognised options.
+* Fix test runner on Python 3.11+.
+
 0.4.3 (2022-10-24)
 ~~~~~~~~~~~~~~~~~~
 

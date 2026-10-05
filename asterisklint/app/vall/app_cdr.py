@@ -13,12 +13,27 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-from ..base import AppBase
+from ..base import App, AppBase, AppOptions
+from ...version import AsteriskVersion
 
 
 class NoCDR(AppBase):
-    pass
+    removed_in = 21
+
+
+class CheckedResetCDR(App):
+    # Builtin up to Asterisk 13, in app_cdr since.
+    name = 'ResetCDR'
+    added_in = 20
+
+    def __init__(self):
+        options = 'ev'
+        if AsteriskVersion().major >= 21:
+            # The e option went together with NoCDR().
+            options = 'v'
+        super().__init__(args=[AppOptions(options)])
 
 
 def register(app_loader):
     app_loader.register(NoCDR())
+    app_loader.register(CheckedResetCDR())

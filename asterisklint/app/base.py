@@ -44,7 +44,7 @@ class AppOptions(AppArg):
         self.options = options
 
     def validate(self, arg, where):
-        str_options = [i for i in arg if isinstance(i, str)]
+        str_options = self.split_options(arg)
         bad_options = [i for i in str_options if i not in self.options]
         if bad_options:
             E_APP_ARG_BADOPT(where, argno=self.argno, app=self.app,
@@ -53,8 +53,37 @@ class AppOptions(AppArg):
             E_APP_ARG_DUPEOPT(where, argno=self.argno, app=self.app,
                               opts=arg)
 
+    @staticmethod
+    def split_options(arg):
+        """
+        Return the option letters in arg, skipping variables and the
+        parenthesized arguments that some options take, like the 5 in
+        g(5) or the macro^arg in M(macro^arg).
+        """
+        # SOURCE: main/app.c -- parse_options()
+        letters = []
+        depth = 0
+        for char in arg:
+            if not isinstance(char, str):
+                pass
+            elif char == '(':
+                depth += 1
+            elif char == ')' and depth:
+                depth -= 1
+            elif not depth:
+                letters.append(char)
+        return letters
+
 
 class AppBase(object):
+    # Asterisk major version from which this app is known to exist, or
+    # in which it was removed. Only needed for apps in modules that are
+    # shared with versions that lack the app. Note that added_in = 20
+    # means "documented in 20", the app may well be older than that.
+    # See AsteriskVersion.provides().
+    added_in = None
+    removed_in = None
+
     @property
     def name(self):
         return self.__class__.__name__

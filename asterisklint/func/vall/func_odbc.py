@@ -24,9 +24,14 @@ class SQL_ESC(FuncBase):
     pass
 
 
+class SQL_ESC_BACKSLASHES(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
             ODBC_FETCH,
             SQL_ESC,
+            SQL_ESC_BACKSLASHES,
             ):
         func_loader.register(func())

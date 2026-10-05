@@ -24,7 +24,16 @@ class SHARED(FuncBase):
     pass
 
 
+class GLOBAL_DELETE(FuncBase):
+    added_in = 20
+
+
+class GLOBAL_EXISTS(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
-            GLOBAL, SHARED):
+            GLOBAL, SHARED,
+            GLOBAL_DELETE, GLOBAL_EXISTS):
         func_loader.register(func())

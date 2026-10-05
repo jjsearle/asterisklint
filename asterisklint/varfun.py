@@ -125,6 +125,8 @@ class FuncLoader(metaclass=Singleton):
         return self._lower_funcs[lower_func]
 
     def register(self, func):
+        if not AsteriskVersion().provides(func):
+            return
         lower_func = func.name.lower()
         self._lower_funcs[lower_func] = func
 

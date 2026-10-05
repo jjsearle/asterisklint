@@ -28,7 +28,12 @@ class SIPDtmfMode(AppBase):
     pass
 
 
+class SIPSendCustomINFO(AppBase):
+    added_in = 20
+
+
 def register(app_loader):
     for app in (
-            SIPAddHeader, SIPRemoveHeader, SIPDtmfMode):
+            SIPAddHeader, SIPRemoveHeader, SIPDtmfMode,
+            SIPSendCustomINFO):
         app_loader.register(app())

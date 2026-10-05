@@ -24,9 +24,14 @@ class CONFBRIDGE_INFO(FuncBase):
     pass
 
 
+class CONFBRIDGE_CHANNELS(FuncBase):
+    added_in = 20
+
+
 def register(func_loader):
     for func in (
             CONFBRIDGE,
             CONFBRIDGE_INFO,
+            CONFBRIDGE_CHANNELS,
             ):
         func_loader.register(func())

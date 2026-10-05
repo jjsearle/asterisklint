@@ -18,7 +18,7 @@ from ..base import App, AppOptions
 
 class Milliwatt(App):
     def __init__(self):
-        super().__init__(args=[AppOptions('o')])
+        super().__init__(args=[AppOptions('mo')])
 
 
 def register(app_loader):

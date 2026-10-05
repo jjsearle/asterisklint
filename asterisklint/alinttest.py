@@ -14,17 +14,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 from collections import defaultdict
+from contextlib import contextmanager
 from io import BytesIO
 from unittest import (
     TestCase, TextTestResult, TextTestRunner,
     expectedFailure, main as orig_main)
 
+from .cls import Singleton
 from .defines import MessageDefManager
 
 
 __all__ = (
     'ALintTestCase', 'GenerateTestCases', 'NamedBytesIO',
-    'expectedFailure', 'ignoreLinted',
+    'asteriskVersion', 'expectedFailure', 'ignoreLinted',
 )
 
 
@@ -47,11 +49,9 @@ class ALintTestCase(TestCase):
         if self._outcome.expectedFailure:
             return False
 
-        # The error list holds accumulated status reports (not all of
-        # them errors).
-        last_error = self._outcome.errors[-1]
-        test_method, errors = last_error
-        return not bool(errors)
+        # Python 3.11 dropped _Outcome.errors; _Outcome.success exists
+        # on all supported versions.
+        return self._outcome.success
 
     def assertLinted(self, expected_counts):
         raised = MessageDefManager.raised
@@ -244,6 +244,33 @@ def ignoreLinted(*values):
         test_item.__alinttest_ignore__ = ignorefunc
         return test_item
     return decorator
+
+
+@contextmanager
+def asteriskVersion(version):
+    """
+    Temporarily run with a different Asterisk version. The version and
+    the app/func loaders are singletons, so we stash the current ones
+    and start with fresh ones.
+
+    Example::
+
+        with asteriskVersion('v22'):
+            App('NoCDR()', where=DUMMY_WHERE)
+    """
+    from .application import AppLoader
+    from .varfun import FuncLoader, VarLoader
+    from .version import AsteriskVersion
+
+    saved = dict(Singleton._instances)
+    for cls in (AsteriskVersion, AppLoader, FuncLoader, VarLoader):
+        Singleton._instances.pop(cls, None)
+    try:
+        AsteriskVersion(version)
+        yield
+    finally:
+        Singleton._instances.clear()
+        Singleton._instances.update(saved)
 
 
 def main():
