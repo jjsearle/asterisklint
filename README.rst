@@ -6,9 +6,14 @@
 AsteriskLint is a suite of tools to check syntax of your Asterisk PBX
 configuration files.
 
+This is a fork of `ossobv/asterisklint
+<https://github.com/ossobv/asterisklint>`_ that adds support for Asterisk
+20 and 22. It is published on PyPI as ``asterisklint-jjs``.
+
 Alright, enough talking. Some examples please!
 
-For an online example see `<https://asterisklint.osso.pub/>`_. For CLI
+For an online example see `<https://asterisklint.osso.pub/>`_. Note that
+it runs the upstream version, without Asterisk 20 and 22 support. For CLI
 examples, keep reading:
 
 
@@ -116,14 +121,19 @@ well.
 Installation
 ------------
 
-Installation is a matter of ``python3 setup.py install``. Or, for more
-convenience, install a PyPI uploaded version through ``pip3(1)``:
+Install from PyPI with ``pip`` (or ``pipx``):
 
 .. code-block:: console
 
-    $ sudo pip3 install asterisklint
+    $ pip install asterisklint-jjs
     ...
-    Successfully installed asterisklint
+    Successfully installed asterisklint-jjs
+
+This package installs the same ``asterisklint`` module and command as the
+upstream ``asterisklint`` package. Uninstall that one first if you have
+it (``pip uninstall asterisklint``).
+
+To install from a source checkout, run ``pip install .``.
 
 
 The ``dialplan-check`` comes in handy as a git commit hook, for example
@@ -211,6 +221,9 @@ Author
 
 Walter Doekes, OSSO B.V. 2015-2020
 
+Asterisk 20 and 22 support and ``asterisklint-jjs`` releases by
+Joe Searle.
 
-.. |AsteriskLint| image:: assets/asterisklint_head.png
+
+.. |AsteriskLint| image:: https://raw.githubusercontent.com/jjsearle/asterisklint/master/assets/asterisklint_head.png
     :alt: AsteriskLint

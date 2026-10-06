@@ -57,6 +57,7 @@ if __name__ == '__main__':
         long_description_content_type='text/x-rst',  # twine check complains..
         author='Walter Doekes, OSSO B.V.',
         author_email='wjdoekes+asterisklint@osso.nl',
+        maintainer='Joe Searle',
         url='https://github.com/jjsearle/asterisklint',
         license='GPLv3+',
         classifiers=[
